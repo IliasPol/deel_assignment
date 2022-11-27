@@ -8,12 +8,13 @@ const Autocomplete = () => {
   const [value, setValue] = useState<string>("");
   const [matchingWords, setMatchingWords] = useState<string[]>([]);
   const [matchingWordsLength, setMatchingWordsLength] = useState<number>(0);
+  const [wordsFromApi, setWordsFromApi] = useState<string[]>([]);
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   useEffect(() => {
     if (value !== "") {
-      autoComplete(value).then((result) => {
+      autoComplete(value , wordsFromApi).then((result) => {
         setMatchingWords(result);
         setMatchingWordsLength(result.length);
         setSelectedIndex(0);
@@ -23,7 +24,13 @@ const Autocomplete = () => {
       setMatchingWordsLength(0);
       setSelectedIndex(0);
     }
-  }, [value]);
+  }, [value, wordsFromApi]);
+
+  useEffect(() => {
+    fetch("https://random-word-api.herokuapp.com/word?number=1000")
+      .then((res) => res.json())
+      .then((newWords) => setWordsFromApi(newWords));
+  }, []);
 
   return (
     <div

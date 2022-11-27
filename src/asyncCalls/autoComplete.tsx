@@ -1,15 +1,20 @@
-const autoComplete = async (value: string): Promise<string[]> => {
+const autoComplete = async (
+  value: string,
+  words: string[]
+): Promise<string[]> => {
   return new Promise((resolve, reject) => {
-    const matchingWords = words
+    const wordsToUse = words.length === 0 ? defaultWords : words;
+    const matchingWords = wordsToUse
       .filter((word) => word.includes(value) && word !== value)
-      .sort((wordA, wordB) => wordA.length - wordB.length).slice(0,15);
+      .sort((wordA, wordB) => wordA.length - wordB.length)
+      .slice(0, 15);
     resolve(matchingWords);
   });
 };
 
 export default autoComplete;
 
-const words = [
+const defaultWords = [
   "ring",
   "writer",
   "absorption",

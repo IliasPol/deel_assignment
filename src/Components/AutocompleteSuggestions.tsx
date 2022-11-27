@@ -27,6 +27,7 @@ const AutocompleteSuggestions = ({
       {suggestions.map((s, i) => {
         return (
           <AutocompleteSuggestion
+            key={i}
             value={value}
             suggestion={s}
             selected={i === selectedIndex}
